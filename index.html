@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADU 2026 - Portal Operativo Semanal Seguridad Externa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; display: flex; min-height: 100vh; color: #334155; }
+        
+        /* 1. BARRA LATERAL */
+        .sidebar { width: 240px; background-color: #11223f; color: #ffffff; padding: 20px 15px; position: fixed; height: 100vh; display: flex; flex-direction: column; }
+        .sidebar-brand { font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 35px; padding-bottom: 15px; border-bottom: 1px solid #1e293b; letter-spacing: 0.5px; }
+        .sidebar-brand span { font-weight: 300; display: block; font-size: 11px; color: #94a3b8; }
+        .nav-menu { list-style: none; }
+        .nav-link { color: #94a3b8; text-decoration: none; display: flex; align-items: center; padding: 12px 15px; border-radius: 8px; margin-bottom: 8px; font-size: 13px; transition: all 0.2s; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { background-color: #1e3a8a; color: #ffffff; font-weight: 600; }
+
+        /* 2. CONTENEDOR PRINCIPAL */
+        .main-content { margin-left: 240px; flex: 1; padding: 25px 35px; background-color: #f8fafc; }
+        
+        /* Encabezado */
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; background: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .header-title h1 { color: #0f172a; font-size: 22px; font-weight: 700; }
+        .header-title p { color: #64748b; font-size: 13px; margin-top: 2px; }
+        .week-badge { background-color: #f1f5f9; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 13px; color: #1e293b; border: 1px solid #e2e8f0; }
+
+        /* Secciones Principales (Páginas de la barra lateral) */
+        .app-page { display: none; }
+        .app-page.active { display: block; }
+
+        /* RUBROS SUPERIORES (Se adaptan automáticamente a 4 columnas) */
+        .rubros-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .rubro-card { background: #ffffff; border-radius: 12px; padding: 20px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; }
+        .rubro-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); }
+        .rubro-card.active { border-color: #1e3a8a; background-color: #f8fafc; }
+        .rubro-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 20px; }
+        .rubro-text { font-size: 13px; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+        
+        .icon-ranking { background-color: #eff6ff; color: #2563eb; }
+        .icon-incidencias { background-color: #fef2f2; color: #dc2626; }
+        .icon-portatiles { background-color: #f0fdf4; color: #16a34a; }
+        .icon-dashboard { background-color: #faf5ff; color: #9333ea; } /* Color Morado para el Dashboard */
+
+        /* VENTANAS DE VERIFICACIÓN (DASHBOARDS) */
+        .dashboard-window { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; display: none; }
+        .dashboard-window.active { display: block; }
+        .window-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+        .window-header h2 { font-size: 16px; color: #0f172a; font-weight: 700; }
+        .live-tag { background-color: #22c55e; color: white; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; }
+        
+        .web-frame { width: 100%; height: 620px; border: none; border-radius: 8px; background-color: #f8fafc; }
+        
+        /* Contenedores de relleno para las nuevas secciones */
+        .placeholder-box { background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            SEGURIDAD EXTERNA
+            <span>Monitoreo 2026</span>
+        </div>
+        <ul class="nav-menu">
+            <li><div id="btn-panel" class="nav-link active" onclick="navegarSidebar('page-panel', this)">🏠 Panel Principal</div></li>
+            <li><div id="btn-registro" class="nav-link" onclick="navegarSidebar('page-registro', this)">📋 Registro Diario</div></li>
+            <li><div id="btn-ajustes" class="nav-link" onclick="navegarSidebar('page-ajustes', this)">⚙️ Ajustes</div></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        
+        <div class="header-top">
+            <div class="header-title">
+                <h1>Incidencias Semanales Operadores ADU 2026</h1>
+                <p>Plataforma Unificada en Línea Gerencia y Direccion</p>
+            </div>
+            <div class="week-badge">📅 SEMANA Actual 26</div>
+        </div>
+
+        <div id="page-panel" class="app-page active">
+            
+            <div class="rubros-container">
+                <div class="rubro-card active" onclick="cambiarModulo('modulo-ranking', this)">
+                    <div class="rubro-icon icon-ranking">🏆</div>
+                    <div class="rubro-text">Ranking</div>
+                </div>
+                <div class="rubro-card" onclick="cambiarModulo('modulo-incidencias', this)">
+                    <div class="rubro-icon icon-incidencias">⚠️</div>
+                    <div class="rubro-text">Incidencias</div>
+                </div>
+                <div class="rubro-card" onclick="cambiarModulo('modulo-portatiles', this)">
+                    <div class="rubro-icon icon-portatiles">📱</div>
+                    <div class="rubro-text">Uso Portátiles</div>
+                </div>
+                <div class="rubro-card" onclick="cambiarModulo('modulo-dashboard', this)">
+                    <div class="rubro-icon icon-dashboard">📊</div>
+                    <div class="rubro-text">Dashboard</div>
+                </div>
+            </div>
+
+            <div id="modulo-ranking" class="dashboard-window active">
+                <div class="window-header"><h2>Estructura del Ranking General ADU 2026</h2><span class="live-tag" style="background-color: #64748b;">Solo Lectura</span></div>
+                <iframe class="web-frame" src="https://docs.google.com/spreadsheets/d/1gufhjQfF-nNaBfc_ZJl-ql-L7klEstEAPSG4cfXkKZ8/edit?gid=1292354502#gid=1292354502"></iframe>
+            </div>
+
+            <div id="modulo-incidencias" class="dashboard-window">
+                <div class="window-header"><h2>Captura General de Incidencias Semanales</h2><span class="live-tag" style="background-color: #3b82f6;">Editable Monitoristas</span></div>
+                <iframe class="web-frame" src="https://docs.google.com/spreadsheets/d/1gufhjQfF-nNaBfc_ZJl-ql-L7klEstEAPSG4cfXkKZ8/edit?gid=488871939#gid=488871939"></iframe>
+            </div>
+
+            <div id="modulo-portatiles" class="dashboard-window">
+                <div class="window-header"><h2>Auditoría de Uso de Equipos Portátiles por CEDIS</h2><span class="live-tag" style="background-color: #3b82f6;">Editable</span></div>
+                <iframe class="web-frame" src="https://docs.google.com/spreadsheets/d/1gufhjQfF-nNaBfc_ZJl-ql-L7klEstEAPSG4cfXkKZ8/edit?gid=135070138#gid=135070138"></iframe>
+            </div>
+
+            <div id="modulo-dashboard" class="dashboard-window">
+                <div class="window-header"><h2>Panel de Visualización Avanzada y KPIs Interactivos (Looker Studio)</h2><span class="live-tag" style="background-color: #9333ea;">Análisis Live</span></div>
+                <iframe class="web-frame" src="https://datastudio.google.com/embed/reporting/877adcb0-174a-404b-8c62-b714689832e8/page/IH0fF"></iframe>
+            </div>
+        </div>
+
+        <div id="page-registro" class="app-page">
+            <div class="window-header" style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <h2>Formulario de Captura Rápida Diario</h2>
+                <span class="live-tag" style="background-color: #16a34a;">Activo</span>
+            </div>
+            <iframe class="web-frame" src="https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEETS/edit?usp=sharing"></iframe>
+        </div>
+
+        <div id="page-ajustes" class="app-page">
+            <div class="placeholder-box">
+                <h2 style="color: #11223f; margin-bottom: 10px;">⚙️ Panel de Configuración Gerencial</h2>
+                <p style="color: #64748b; margin-bottom: 25px;">Gestión de accesos y respaldos del sistema operativo.</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button onclick="alert('Permisos Actualizados')" style="background: #11223f; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">🔑 Restablecer Permisos Monitoristas</button>
+                    <button onclick="alert('Descargando Respaldo')" style="background: #f1f5f9; color: #11223f; padding: 12px 20px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; font-weight: bold;">📥 Descargar Respaldo (Excel)</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Barra Lateral Izquierda
+        function navegarSidebar(pageId, elementoMenu) {
+            document.querySelectorAll('.app-page').forEach(page => { page.classList.remove('active'); });
+            document.querySelectorAll('.nav-link').forEach(link => { link.classList.remove('active'); });
+            document.getElementById(pageId).classList.add('active');
+            elementoMenu.classList.add('active');
+        }
+
+        // 2. Tarjetas de Rubros Superiores (Ahora controla 4 módulos)
+        function cambiarModulo(moduloId, elementoCard) {
+            document.querySelectorAll('#page-panel .dashboard-window').forEach(window => { window.className = 'dashboard-window'; });
+            document.querySelectorAll('.rubro-card').forEach(card => { card.classList.remove('active'); });
+            
+            document.getElementById(moduloId).classList.add('active');
+            elementoCard.classList.add('active');
+        }
+    </script>
+</body>
+</html>
