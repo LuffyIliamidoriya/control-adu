@@ -9,7 +9,7 @@
         body { background-color: #f4f6f9; display: flex; min-height: 100vh; color: #334155; }
         
         /* 1. BARRA LATERAL */
-        .sidebar { width: 240px; background-color: #11223f; color: #ffffff; padding: 20px 15px; position: fixed; height: 100vh; display: flex; flex-direction: column; }
+        .sidebar { width: 240px; background-color: #11223f; color: #ffffff; padding: 20px 15px; position: fixed; height: 100vh; display: flex; flex-direction: column; overflow-y: auto; }
         .sidebar-brand { font-size: 18px; font-weight: bold; text-align: center; margin-bottom: 35px; padding-bottom: 15px; border-bottom: 1px solid #1e293b; letter-spacing: 0.5px; }
         .sidebar-brand span { font-weight: 300; display: block; font-size: 11px; color: #94a3b8; }
         .nav-menu { list-style: none; }
@@ -29,7 +29,7 @@
         .app-page { display: none; }
         .app-page.active { display: block; }
 
-        /* RUBROS SUPERIORES (Se adaptan automáticamente a 4 columnas) */
+        /* RUBROS SUPERIORES */
         .rubros-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
         .rubro-card { background: #ffffff; border-radius: 12px; padding: 20px 10px; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px solid transparent; transition: all 0.2s; }
         .rubro-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08); }
@@ -40,7 +40,7 @@
         .icon-ranking { background-color: #eff6ff; color: #2563eb; }
         .icon-incidencias { background-color: #fef2f2; color: #dc2626; }
         .icon-portatiles { background-color: #f0fdf4; color: #16a34a; }
-        .icon-dashboard { background-color: #faf5ff; color: #9333ea; } /* Color Morado para el Dashboard */
+        .icon-dashboard { background-color: #faf5ff; color: #9333ea; }
 
         /* VENTANAS DE VERIFICACIÓN (DASHBOARDS) */
         .dashboard-window { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; display: none; }
@@ -51,8 +51,21 @@
         
         .web-frame { width: 100%; height: 620px; border: none; border-radius: 8px; background-color: #f8fafc; }
         
-        /* Contenedores de relleno para las nuevas secciones */
+        /* Contenedores de relleno y estilos de contenido */
         .placeholder-box { background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; }
+
+        /* Estilos específicos para la vista del Protocolo */
+        .protocol-container { background: #ffffff; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .timeline { position: relative; padding-left: 20px; margin-top: 20px; border-left: 3px solid #cbd5e1; }
+        .timeline-item { position: relative; margin-bottom: 30px; padding-left: 20px; }
+        .timeline-item::before { content: ''; position: absolute; left: -28px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: #1e3a8a; border: 3px solid #ffffff; }
+        .timeline-time { font-size: 12px; font-weight: 700; color: #2563eb; text-transform: uppercase; margin-bottom: 4px; }
+        .timeline-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+        .timeline-content { font-size: 14px; color: #475569; line-height: 1.6; }
+        .timeline-content ul { margin-left: 20px; margin-top: 8px; }
+        .timeline-content li { margin-bottom: 4px; }
+        .alert-box { background-color: #fef2f2; border-left: 4px solid #dc2626; padding: 12px 15px; margin-top: 10px; border-radius: 0 8px 8px 0; font-size: 13px; color: #991b1b; }
+        .example-box { background-color: #f8fafc; border: 1px dashed #cbd5e1; padding: 10px 15px; margin-top: 8px; border-radius: 6px; font-size: 13px; color: #334155; }
     </style>
 </head>
 <body>
@@ -65,6 +78,7 @@
         <ul class="nav-menu">
             <li><div id="btn-panel" class="nav-link active" onclick="navegarSidebar('page-panel', this)">🏠 Panel Principal</div></li>
             <li><div id="btn-registro" class="nav-link" onclick="navegarSidebar('page-registro', this)">📋 Registro Diario</div></li>
+            <li><div id="btn-protocolo" class="nav-link" onclick="navegarSidebar('page-protocolo', this)">📄 Protocolo Operativo</div></li>
             <li><div id="btn-ajustes" class="nav-link" onclick="navegarSidebar('page-ajustes', this)">⚙️ Ajustes</div></li>
         </ul>
     </div>
@@ -74,11 +88,12 @@
         <div class="header-top">
             <div class="header-title">
                 <h1>Incidencias Semanales Operadores ADU 2026</h1>
-                <p>Plataforma Unificada en Línea Gerencia y Direccion</p>
+                <p>Plataforma Unificada en Línea Gerencia y Dirección</p>
             </div>
-            <div class="week-badge">📅 SEMANA Actual 26</div>
+            <div class="week-badge">📅 SEMANA Actual 32</div>
         </div>
 
+        <!-- PÁGINA 1: PANEL PRINCIPAL -->
         <div id="page-panel" class="app-page active">
             
             <div class="rubros-container">
@@ -121,6 +136,7 @@
             </div>
         </div>
 
+        <!-- PÁGINA 2: REGISTRO DIARIO -->
         <div id="page-registro" class="app-page">
             <div class="window-header" style="background: white; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
                 <h2>Formulario de Captura Rápida Diario</h2>
@@ -129,6 +145,88 @@
             <iframe class="web-frame" src="https://docs.google.com/spreadsheets/d/TU_ID_DE_GOOGLE_SHEETS/edit?usp=sharing"></iframe>
         </div>
 
+        <!-- PÁGINA 3: PROTOCOLO OPERATIVO (NUEVA VISTA) -->
+        <div id="page-protocolo" class="app-page">
+            <div class="protocol-container">
+                <div class="window-header">
+                    <h2>Protocolo Flujo de Incidencias Semanales</h2>
+                    <span class="live-tag" style="background-color: #2563eb;">Manual Operativo</span>
+                </div>
+                
+                <div class="timeline">
+                    <!-- Sábado Madrugada -->
+                    <div class="timeline-item">
+                        <div class="timeline-time">Sábado en la Madrugada</div>
+                        <div class="timeline-title">Cabina de Monitoreo</div>
+                        <div class="timeline-content">
+                            Monitorista envía el reporte de incidencias por medio de correo electrónico en la madrugada de cada fin de semana.
+                        </div>
+                    </div>
+
+                    <!-- Sábado 8:00 AM -->
+                    <div class="timeline-item">
+                        <div class="timeline-time">Sábado - 8:00 AM</div>
+                        <div class="timeline-title">Analista de Información - Procesamiento Inicial</div>
+                        <div class="timeline-content">
+                            <ul>
+                                <li>Recibe los reportes de las diferentes cuentas vía correo electrónico.</li>
+                                <li>Unifica los reportes en un solo archivo consolidado.</li>
+                                <li>Sube la información a la aplicación en línea (Google Sheets / Drive).</li>
+                                <li>Agrega y depura los comentarios para asegurar claridad.</li>
+                            </ul>
+                            <div class="example-box">
+                                📌 <strong>Ejemplo de depuración:</strong> Si existen incidencias marcadas pero sin comentarios descriptivos, la incidencia se elimina del reporte para no afectar indebidamente al operador.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sábado 12:00 PM a 2:00 PM -->
+                    <div class="timeline-item">
+                        <div class="timeline-time">Sábado - 12:00 PM a 2:00 PM</div>
+                        <div class="timeline-title">Notificación a Bodegas y Apertura de Observaciones</div>
+                        <div class="timeline-content">
+                            <ul>
+                                <li>Se integran los equipos portátiles en la pestaña <em>"Uso de equipos portátiles por CEDIS"</em>.</li>
+                                <li>Se envía correo masivo a las bodegas detallando el desempeño semanal.</li>
+                                <li>El correo incluye el ranking semanal y resalta las bodegas con porcentajes bajos o negativos en el uso de portátiles.</li>
+                            </ul>
+                            <div class="example-box">
+                                ⏳ <strong>Ventana de aclaraciones:</strong> Las bodegas pueden registrar observaciones desde el sábado (12:00 PM - 2:00 PM), todo el domingo y hasta el lunes a las 12:00 PM.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lunes 8:00 AM -->
+                    <div class="timeline-item">
+                        <div class="timeline-time">Lunes - 8:00 AM</div>
+                        <div class="timeline-title">Analista de Información - Ajustes y Carga a Portal</div>
+                        <div class="timeline-content">
+                            <ul>
+                                <li>Revisión detallada de observaciones recibidas por correo de supervisores de tráfico y logística.</li>
+                                <li>Migración del reporte al formato oficial de Recursos Humanos.</li>
+                                <li>Depuración final: Solo se conservan las incidencias formalmente aplicables a operadores.</li>
+                                <li>Verificación contra nómina para asegurar que ningún operador quede sin calificación.</li>
+                                <li>Carga final en la plataforma <strong>Portal de Distribución</strong> para validación de RH.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Martes 8:00 AM -->
+                    <div class="timeline-item">
+                        <div class="timeline-time">Martes - 8:00 AM</div>
+                        <div class="timeline-title">Cierre de Nómina (Límite Definitivo)</div>
+                        <div class="timeline-content">
+                            Se cierra formalmente la nómina y se bloquea la edición en la plataforma.
+                            <div class="alert-box">
+                                ⚠️ <strong>Atención:</strong> Si se realiza una revisión tardía posterior a este horario, existe riesgo de afectación al programa de recompensas o penalizaciones en el bono semanal del operador.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PÁGINA 4: AJUSTES -->
         <div id="page-ajustes" class="app-page">
             <div class="placeholder-box">
                 <h2 style="color: #11223f; margin-bottom: 10px;">⚙️ Panel de Configuración Gerencial</h2>
@@ -151,7 +249,7 @@
             elementoMenu.classList.add('active');
         }
 
-        // 2. Tarjetas de Rubros Superiores (Ahora controla 4 módulos)
+        // 2. Tarjetas de Rubros Superiores
         function cambiarModulo(moduloId, elementoCard) {
             document.querySelectorAll('#page-panel .dashboard-window').forEach(window => { window.className = 'dashboard-window'; });
             document.querySelectorAll('.rubro-card').forEach(card => { card.classList.remove('active'); });
@@ -161,4 +259,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
